@@ -1,13 +1,13 @@
-# Prescripto - Doctor Appointment Web App
+# MedVerse
 
-**Prescripto** is a full-stack web application designed to make healthcare more accessible by simplifying the process of booking doctor appointments. It offers three levels of login: **Patient**, **Doctor**, and **Admin**, each with distinct features tailored to their roles. The app integrates **online payment gateways (Stripe and Razorpay)** to facilitate seamless and secure payments. Built using the **MERN stack** (MongoDB, Express.js, React.js, and Node.js), Prescripto provides an efficient, user-friendly experience for both patients and healthcare providers.
+**Medverse** is a full-stack web application designed to make healthcare more accessible by simplifying the process of booking doctor appointments. It offers three levels of login: **Patient**, **Doctor**, and **Admin**, each with distinct features tailored to their roles. The app integrates **online payment gateways (Razorpay)** to facilitate seamless and secure payments. Built using the **MERN stack** (MongoDB, Express.js, React.js, and Node.js), Prescripto provides an efficient, user-friendly experience for both patients and healthcare providers.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React.js
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
-- **Payment Gateways**: Razorpay, Xendit
+- **Payment Gateways**: Razorpay
 - **Authentication**: JSON Web Token (JWT)
 
 ## 🔑 Key Features
@@ -19,6 +19,9 @@
   - Manage appointments (view, cancel, or reschedule).
   - Secure online payment options available (cash, Stripe, Razorpay).
   - User profile with editable information (name, email, address, gender, birthday, profile picture).
+  - Patients can input their health vitals such as blood pressure, heart rate, and temperature, which are then displayed using interactive graphs for easy monitoring.
+  - The platform uses geolocation to help patients find nearby doctors and view them on an interactive map.
+  - An integrated chatbot assists patients by answering common questions, guiding them through symptoms, and helping them prepare for consultations.
 
 - **Doctor Login**:
   - Doctors can log in and manage appointments.

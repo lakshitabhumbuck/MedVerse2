@@ -7,8 +7,8 @@ import {
   bookAppointment,
   listAppointment,
   cancelAppointment,
-  // paymentRazorpay, // Disabled
-  // verifyRazorpay, // Disabled
+   paymentRazorpay, 
+   verifyRazorpay, 
   paymentXendit,
   verifyXendit
 } from '../controllers/userController.js'
@@ -30,8 +30,8 @@ userRouter.post(
 userRouter.post('/book-appointment', authUser, bookAppointment)
 userRouter.get('/appointments', authUser, listAppointment)
 userRouter.post('/cancel-appointment', authUser, cancelAppointment)
-// userRouter.post('/payment-razorpay', authUser, paymentRazorpay) // Disabled
-// userRouter.post('/verify-razorpay', authUser, verifyRazorpay) // Disabled
+ userRouter.post('/payment-razorpay', authUser, paymentRazorpay) 
+userRouter.post('/verify-razorpay', authUser, verifyRazorpay) 
 userRouter.post('/payment-xendit', authUser, paymentXendit)
 userRouter.post('/verify-xendit', authUser, verifyXendit)
 

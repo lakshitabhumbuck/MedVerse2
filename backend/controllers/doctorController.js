@@ -37,7 +37,7 @@ const loginDoctor = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    // For the demo, we ensure the doctor exists. In a real app, they would register.
+   
     let doctor = await doctorModel.findOne({ email })
 
     if (!doctor) {

@@ -81,7 +81,7 @@ const addDoctor = async (req, res) => {
     const newDoctor = new doctorModel(doctorData)
     await newDoctor.save()
 
-    res.status(201).json({ success: true, message: 'Doctor Added 🎉' })
+    res.status(201).json({ success: true, message: 'Doctor Added ' })
   } catch (error) {
     console.log(error)
     res

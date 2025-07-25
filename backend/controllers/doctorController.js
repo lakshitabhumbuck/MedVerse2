@@ -50,9 +50,9 @@ const loginDoctor = async (req, res) => {
         speciality: "General Physician",
         fees: 500,
         address: {
-          line1: "123 Health St",
-          city: "Wellness City",
-          state: "Statelife",
+          line1: "123 P Block",
+          city: "Saket",
+          state: "Delhi",
           pincode: "12345"
         }
       })

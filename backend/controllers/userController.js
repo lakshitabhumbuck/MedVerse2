@@ -212,7 +212,7 @@ const bookAppointment = async (req, res) => {
     const newAppointment = new appointmentModel(appointmentData)
     await newAppointment.save()
 
-    // save new slots data in doctors data
+    
     await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
     res.status(201).json({ success: true, message: 'Appointment Booked! 🎉' })
@@ -239,7 +239,7 @@ const cancelAppointment = async (req, res) => {
   try {
     const { userId, appointmentId } = req.body
     const appointmentData = await appointmentModel.findById(appointmentId)
-    // verify appointment user
+    
     if (appointmentData.userId !== userId) {
       return res
         .status(400)
@@ -265,22 +265,20 @@ const cancelAppointment = async (req, res) => {
   }
 }
 
-// ---------- RAZORPAY PAYMENT GATEWAY - INTEGRATION (DISABLED) -----------
+// ---------- RAZORPAY PAYMENT GATEWAY - INTEGRATION -----------
 
-/*
+
 const razorpayInstance = new razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET
 })
-// Api to make payment of appointment using razorpay
 const paymentRazorpay = async (req, res) => {
-  // ... (code for paymentRazorpay)
+
 }
-// Api to verify payment of razorpay
+
 const verifyRazorpay = async (req, res) => {
-  // ... (code for verifyRazorpay)
 }
-*/
+
 
 // ---------- XENDIT PAYMENT GATEWAY - INTEGRATION -----------
 const xendit = new (Xendit.default ? Xendit.default : Xendit)({ secretKey: process.env.XENDIT_API_KEY })
@@ -354,8 +352,6 @@ const paymentXendit = async (req, res) => {
 const verifyXendit = async (req, res) => {
   try {
     const { externalID } = req.body
-    // You may want to fetch the invoice status from Xendit here
-    // For demo, just mark as paid
     await appointmentModel.findByIdAndUpdate(externalID, {
       payment: true
     })
@@ -375,8 +371,8 @@ export {
   bookAppointment,
   listAppointment,
   cancelAppointment,
-  // paymentRazorpay, // Disabled
-  // verifyRazorpay, // Disabled
+   paymentRazorpay, 
+  verifyRazorpay, 
   paymentXendit,
   verifyXendit
 }

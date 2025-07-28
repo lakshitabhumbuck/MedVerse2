@@ -272,12 +272,77 @@ const razorpayInstance = new razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET
 })
-const paymentRazorpay = async (req, res) => {
 
+
+const paymentRazorpay = async (req, res) => {
+  try {
+    const { appointmentId } = req.body
+    const appointmentData = await appointmentModel.findById(appointmentId)
+
+    if (!appointmentData || appointmentData.cancelled) {
+      return res.status(400).json({
+        success: false,
+        message: 'Appointment is cancelled or does not exist!'
+      })
+    }
+
+    if (appointmentData.payment) {
+      return res.status(400).json({
+        success: false,
+        message: 'Payment has already been completed.'
+      })
+    }
+
+    const doctorData = await doctorModel.findById(appointmentData.docId)
+    const amountInPaise = doctorData.fees * 100
+
+    const options = {
+      amount: amountInPaise,
+      currency: 'INR',
+      receipt: appointmentId.toString(),
+      payment_capture: 1
+    }
+
+    const order = await razorpayInstance.orders.create(options)
+
+    res.status(201).json({
+      success: true,
+      order,
+      key: process.env.RAZORPAY_KEY_ID
+    })
+  } catch (error) {
+    console.error('Razorpay Payment Error:', error)
+    res.status(500).json({ success: false, message: error.message })
+  }
 }
+
+
 
 const verifyRazorpay = async (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, appointmentId } = req.body
+
+    const body = razorpay_order_id + '|' + razorpay_payment_id
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest('hex')
+
+    if (expectedSignature !== razorpay_signature) {
+      return res.status(400).json({ success: false, message: 'Invalid Signature' })
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      payment: true
+    })
+
+    res.status(200).json({ success: true, message: 'Payment Verified Successfully!' })
+  } catch (error) {
+    console.error('Razorpay Verification Error:', error)
+    res.status(500).json({ success: false, message: error.message })
+  }
 }
+
 
 
 // ---------- XENDIT PAYMENT GATEWAY - INTEGRATION -----------

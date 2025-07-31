@@ -13,6 +13,17 @@ const doctorSchema = new mongoose.Schema(
     available: { type: Boolean, default: true },
     fees: { type: Number, required: true },
     address: { type: Object, required: true },
+    city: String,
+    location: {
+    type: {
+      type: String, // 'Point'
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true
+    }
     date: { type: Number, required: true },
     slots_booked: { type: Object, default: {} }
   },
@@ -21,5 +32,7 @@ const doctorSchema = new mongoose.Schema(
 
 const doctorModel =
   mongoose.models.doctor || mongoose.model('doctor', doctorSchema)
+
+doctorSchema.index({ location: '2dsphere' })
 
 export default doctorModel

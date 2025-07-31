@@ -19,13 +19,13 @@ const About = () => {
         />
         <div className='flex flex-col justify-center md:text-justify gap-4 md:gap-6 text-sm md:text-base text-gray-600'>
           <p>
-            Welcome to MediVerse, your trusted partner in managing your
+            Welcome to MedVerse, your trusted partner in managing your
             healthcare needs conveniently and efficiently. At Prescripto, we
             understand the challenges individuals face when it comes to
             scheduling doctor appointments and managing their health records.
           </p>
           <p>
-            MediVerse is committed to excellence in healthcare technology. We
+            MedVerse is committed to excellence in healthcare technology. We
             continuously strive to enhance our platform, integrating the latest
             advancements to improve user experience and deliver superior
             service. Whether you're booking your first appointment or managing
@@ -36,7 +36,7 @@ const About = () => {
             Our Vision
           </b>
           <p>
-            Our vision at MediVerse is to create a seamless healthcare
+            Our vision at MedVerse is to create a seamless healthcare
             experience for every user. We aim to bridge the gap between patients
             and healthcare providers, making it easier for you to access the
             care you need, when you need it.

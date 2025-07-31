@@ -18,21 +18,21 @@ const __dirname = path.dirname(__filename)
 connetDB()
 connectCloudinary()
 
-// -------- middlewares ---------
+
 app.use(express.json())
 app.use(cors())
 
-// ------ api endpoints ------
-app.use('/api/admin', adminRouter) // localhost:4000/api/admin/add-doctor
-app.use('/api/doctor', doctorRouter) // localhost:4000/api/admin/list
-app.use('/api/user', userRouter) // localhost:4000/api/doctor/register
+
+app.use('/api/admin', adminRouter)
+app.use('/api/doctor', doctorRouter)
+app.use('/api/user', userRouter) 
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, '../frontend/dist')))
   
-  // Handle React routing, return all requests to React app
+
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'))
   })
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-// -------- port listen -------
+
 app.listen(port, () => {
   console.log('Server Running on port', port)
 })

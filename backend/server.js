@@ -9,7 +9,7 @@ import adminRouter from './routes/adminRoute.js'
 import doctorRouter from './routes/doctorRoute.js'
 import userRouter from './routes/userRoute.js'
 
-// -------- app config ----------
+
 const app = express()
 const port = process.env.PORT || 4000
 const __filename = fileURLToPath(import.meta.url)
@@ -27,7 +27,7 @@ app.use('/api/admin', adminRouter)
 app.use('/api/doctor', doctorRouter)
 app.use('/api/user', userRouter) 
 
-// Serve static files from the React app in production
+
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, '../frontend/dist')))

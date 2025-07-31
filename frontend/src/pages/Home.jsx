@@ -5,7 +5,7 @@ import TopDoctors from '../components/TopDoctors'
 import Banner from '../components/Banner'
 import axios from 'axios'
 
-const LocationPopup = ({ onClose }) => {
+const LocationPopup = ({ onClose }) => { 
   const [step, setStep] = useState('detecting')
   const [coords, setCoords] = useState(null)
   const [error, setError] = useState(null)

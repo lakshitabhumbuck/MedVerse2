@@ -1,6 +1,6 @@
 
 import express from 'express'
-import doctorModel from '../models/doctorModel.js' 
+import doctorModel from '../models/doctorModel.js'
 
 const router = express.Router()
 
@@ -12,22 +12,31 @@ router.post('/nearby-doctor', async (req, res) => {
       return res.status(400).json({ message: 'Coordinates missing' })
     }
 
-
+ 
     const nearbyDoctor = await doctorModel.findOne({
-
-      city: { $regex: /delhi/i }
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [longitude, latitude] 
+          },
+          $maxDistance: 10000 // 10 km radius
+        }
+      }
     })
 
     if (!nearbyDoctor) {
       return res.status(404).json({ message: 'No nearby doctor found' })
     }
 
-    res.json({ doctor: {
-      name: nearbyDoctor.name,
-      speciality: nearbyDoctor.speciality,
-      city: nearbyDoctor.city,
-      id: nearbyDoctor._id
-    } })
+    res.json({
+      doctor: {
+        name: nearbyDoctor.name,
+        speciality: nearbyDoctor.speciality,
+        city: nearbyDoctor.city,
+        id: nearbyDoctor._id
+      }
+    })
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: 'Server error' })

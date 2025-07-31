@@ -3,62 +3,97 @@ import Header from '../components/Header'
 import SpecialityMenu from '../components/SpecialityMenu'
 import TopDoctors from '../components/TopDoctors'
 import Banner from '../components/Banner'
+import axios from 'axios'
 
 const LocationPopup = ({ onClose }) => {
-  const [step, setStep] = useState('detecting'); // 'detecting', 'showCoords', 'suggestDoctor'
+  const [step, setStep] = useState('detecting')
+  const [coords, setCoords] = useState(null)
+  const [error, setError] = useState(null)
+  const [doctor, setDoctor] = useState(null)
 
   useEffect(() => {
     if (step === 'detecting') {
-      const timer = setTimeout(() => setStep('showCoords'), 10000);
-      return () => clearTimeout(timer);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords
+          setCoords({ lat: latitude, lon: longitude })
+          setStep('showCoords')
+
+          try {
+            // Send coords to backend and get nearby doctor
+            const res = await axios.post('/api/nearby-doctor', {
+              latitude,
+              longitude,
+            })
+            setDoctor(res.data.doctor) // assuming backend sends doctor object
+          } catch (err) {
+            console.error('Error fetching doctor:', err)
+          }
+        },
+        (err) => {
+          setError('Location access denied or failed.')
+          setStep('showCoords')
+        }
+      )
     }
+
     if (step === 'showCoords') {
-      const timer = setTimeout(() => setStep('suggestDoctor'), 10000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setStep('suggestDoctor'), 6000)
+      return () => clearTimeout(timer)
     }
+
     if (step === 'suggestDoctor') {
-      const timer = setTimeout(() => onClose(), 6000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => onClose(), 6000)
+      return () => clearTimeout(timer)
     }
-  }, [step, onClose]);
+  }, [step, onClose])
 
   return (
-    <div style={{position: 'fixed', bottom: 40, right: 40, zIndex: 1000}}>
+    <div style={{ position: 'fixed', bottom: 40, right: 40, zIndex: 1000 }}>
       <div className="flex flex-col items-center justify-center w-80 h-80 bg-white border-4 border-blue-400 shadow-2xl rounded-full p-6 animate-pop-in relative">
         <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl font-bold">×</button>
+
         {step === 'detecting' && (
-          <>
-            <div className="flex flex-col items-center justify-center h-full">
-              <svg className="animate-spin mb-4" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              <div className="text-center font-semibold text-lg text-blue-700">Detecting your location...</div>
-              <div className="text-xs text-gray-500 mt-2">Please wait while we find your location</div>
-            </div>
-          </>
+          <div className="flex flex-col items-center justify-center h-full">
+            <svg className="animate-spin mb-4" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <div className="text-blue-700 text-lg font-semibold">Detecting your location...</div>
+            <div className="text-xs text-gray-500 mt-2">Please wait...</div>
+          </div>
         )}
+
         {step === 'showCoords' && (
-          <>
-            <div className="flex flex-col items-center justify-center h-full">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
-              <div className="text-center font-semibold text-lg text-green-700">Location detected!</div>
-              <div className="text-base mt-2 font-mono text-gray-700">28.6666° N<br/>77.2288° E</div>
+          <div className="flex flex-col items-center justify-center h-full">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/></svg>
+            <div className="text-green-700 text-lg font-semibold">
+              {error ? 'Location Error' : 'Location Detected!'}
             </div>
-          </>
+            <div className="text-base mt-2 font-mono text-gray-700">
+              {error ? <span className="text-red-500">{error}</span> : <>
+                {coords?.lat.toFixed(4)}° N<br />{coords?.lon.toFixed(4)}° E
+              </>}
+            </div>
+          </div>
         )}
-        {step === 'suggestDoctor' && (
-          <>
-            <div className="flex flex-col items-center justify-center h-full">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mb-3"><circle cx="12" cy="12" r="10"/><path d="M16 12a4 4 0 11-8 0 4 4 0 018 0zM12 16v2"/></svg>
-              <div className="text-center font-semibold text-lg text-purple-700">Nearby Doctor Recommended</div>
-              <div className="mt-2 text-xl font-bold text-gray-800">Dr. Navya</div>
-              <div className="text-sm text-gray-600">Dermatologist, Delhi</div>
-              <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold shadow hover:bg-blue-600 transition">View Profile</button>
-            </div>
-          </>
+
+        {step === 'suggestDoctor' && doctor && (
+          <div className="flex flex-col items-center justify-center h-full">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M16 12a4 4 0 11-8 0 4 4 0 018 0zM12 16v2"/></svg>
+            <div className="text-purple-700 text-lg font-semibold">Nearby Doctor</div>
+            <div className="mt-2 text-xl font-bold text-gray-800">{doctor.name}</div>
+            <div className="text-sm text-gray-600">{doctor.speciality}, {doctor.city}</div>
+            <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold shadow hover:bg-blue-600 transition">
+              View Profile
+            </button>
+          </div>
         )}
       </div>
     </div>
-  );
+  )
 };
+
+export default LocationPopup
+
+
 
 const LocationButton = () => {
   const [showPopup, setShowPopup] = useState(false);

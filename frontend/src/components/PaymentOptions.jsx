@@ -68,7 +68,7 @@ const PaymentOptions = ({ appointmentId, amount, onPaymentSuccess, onClose }) =>
     }
   }
 
-  // --- Razorpay Mock Handlers ---
+  // --- Razorpay ---
   const handleProviderClick = (provider) => {
     setSelectedProvider(provider)
     setPaymentStep('demoBank')

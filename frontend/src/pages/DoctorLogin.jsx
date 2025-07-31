@@ -13,7 +13,7 @@ const DoctorLogin = () => {
     e.preventDefault();
     setLoading(true);
 
-    // --- Hardcoded Demo Login ---
+    
     if (email === 'lakshita@gmail.com' && password === 'lakshita@123') {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;

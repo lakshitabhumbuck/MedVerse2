@@ -3,12 +3,10 @@
 **Medverse** is a full-stack web application designed to make healthcare more accessible by simplifying the process of booking doctor appointments. It offers three levels of login: **Patient**, **Doctor**, and **Admin**, each with distinct features tailored to their roles. The app integrates **online payment gateways (Razorpay)** to facilitate seamless and secure payments. Built using the **MERN stack** (MongoDB, Express.js, React.js, and Node.js), Prescripto provides an efficient, user-friendly experience for both patients and healthcare providers.
 
 
-# Demo Link
+# 🎥 Demo Link
 
-🎥 [Watch demo video](https://drive.google.com/file/d/1-AFJ6_hmEMuYwe16AgQveKxtBkndA0R8/view?usp=drive_link)
+[Watch Demo Video](https://drive.google.com/file/d/1-AFJ6_hmEMuYwe16AgQveKxtBkndA0R8/view?usp=drive_link)
 
-
-https://drive.google.com/file/d/1-AFJ6_hmEMuYwe16AgQveKxtBkndA0R8/view?usp=drive_link
 
 ## 🛠️ Tech Stack
 

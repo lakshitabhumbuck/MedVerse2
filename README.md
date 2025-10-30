@@ -10,7 +10,7 @@
 
 
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React.js
 - **Backend**: Node.js, Express.js
@@ -18,7 +18,7 @@
 - **Payment Gateways**: Razorpay
 - **Authentication**: JSON Web Token (JWT)
 
-## 🔑 Key Features
+##  Key Features
 
 ### 1. Three-Level Authentication
 
@@ -44,7 +44,7 @@
   - View and manage all appointments (cancel or mark as completed).
 
 
-## 📅 Doctor Appointment Page
+##  Doctor Appointment Page
 
 - Displays detailed information about the selected doctor:
   - **Profile picture, qualification, experience**, and a brief description.
@@ -53,7 +53,7 @@
   - **Related doctors** section at the bottom.
 - Users need to **create an account or log in** before booking an appointment.
 
-## 👤 User Profile
+##  User Profile
 
 - Accessible after login.
 - Users can view and edit their profile:
@@ -62,7 +62,7 @@
 - View list of upcoming and past appointments.
 - **Logout** option available.
 
-## 🗄️ Admin Panel
+##  Admin Panel
 
 - **Dashboard**:
   - Displays statistics: **Number of doctors**, **appointments**, **patients**, and **latest bookings**.
@@ -85,7 +85,7 @@
 - **Profile Management**:
   - Doctors can update their **profile information**, including description, fees, address, and availability status.
 
-## 💳 Payment Integration
+##  Payment Integration
 
 - Supports multiple payment methods:
   - **Razorpay Integration**
